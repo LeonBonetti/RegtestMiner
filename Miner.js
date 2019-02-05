@@ -11,14 +11,16 @@ setInterval(()=>{
                 exec('docker exec ' + container.name + ' ps ax | grep ' + container.process, (err, stdout) => {
                     if (err) return console.log('400', container.process, err)
                     if (stdout.length > 0) {
-                        const credentials = SplitAndSearch(stdout, ["rpcuser", "rpcpassword"])
-                        let rpcuser, rpcpassword
+                        const credentials = SplitAndSearch(stdout, ["rpcuser", "rpcpassword", "rpcport", "rpcbind"])
+                        let rpcuser, rpcpassword, rpcport, rpcbind
                         credentials.map((item)=>{
                             if(item.indexOf('rpcuser') > -1) rpcuser = item.split('=')[1]
                             if(item.indexOf('rpcpassword') > -1) rpcpassword = item.split('=')[1]
+                            if(item.indexOf('rpcport') > -1) rpcport = item.split('=')[1]
+                            if(item.indexOf('rpcbind') > -1) rpcbind = item.split('=')[1]
                         })
     
-                        SendRequest({rpcuser, rpcpassword})
+                        SendRequest({rpcuser, rpcpassword, rpcport, rpcbind})
                     }
                 })
             }
@@ -52,7 +54,7 @@ const SendRequest = async (credentials) => {
     const dataString = JSON.stringify(dataToSend)
 
     const options = {
-        url: 'http://127.0.0.1:19335',
+        url: 'http://'+credentials.rpcbind+':'+credentials.rpcport,
         method: 'POST',
         headers: headers,
         body: dataString,
@@ -61,9 +63,10 @@ const SendRequest = async (credentials) => {
             'pass': credentials.rpcpassword
         }
     }
+
     await request(options, (error, response, body)=>{
         if(error) console.log({fail: true, error})
-        console.log(JSON.parse(body.result))
+        console.log(JSON.parse(response.statusCode))
     })
 
 }
