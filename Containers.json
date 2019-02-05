@@ -1,0 +1,6 @@
+{
+    "containers": [
+        {"name":"Litecoin.Node",
+        "process": "litecoind"}
+    ]
+}
