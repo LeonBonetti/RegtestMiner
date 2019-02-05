@@ -1,0 +1,24 @@
+{
+  "name": "minerserviceregtest",
+  "version": "1.0.0",
+  "description": "Simple script to generate blocks in bitcoin regression test mode",
+  "main": "Miner.js",
+  "dependencies": {
+    "request": "^2.88.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node Miner.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LeonBonetti/RegtestMiner.git"
+  },
+  "author": "Leonardo Bonetti",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LeonBonetti/RegtestMiner/issues"
+  },
+  "homepage": "https://github.com/LeonBonetti/RegtestMiner#readme"
+}
